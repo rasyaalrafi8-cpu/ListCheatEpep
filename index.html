@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ListCheatEpep </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============ RESET & BASE ============ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #05050d;
+  --bg-soft:   #0b0b18;
+  --card:      rgba(255,255,255,0.035);
+  --stroke:    rgba(255,255,255,0.09);
+  --text:      #eef1ff;
+  --muted:     #8b91b5;
+  --wa:        #25d366;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 90px;
+}
+
+/* ============ BACKGROUND ORBS ============ */
+.orbs { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .45;
+  animation: float 18s ease-in-out infinite;
+}
+.orb:nth-child(1) { width: 480px; height: 480px; background: #7c3aed; top: -160px; left: -120px; }
+.orb:nth-child(2) { width: 420px; height: 420px; background: #0ea5e9; top: 30%; right: -160px; animation-delay: -6s; }
+.orb:nth-child(3) { width: 400px; height: 400px; background: #ef4444; bottom: -140px; left: 25%; animation-delay: -12s; }
+.orb:nth-child(4) { width: 340px; height: 340px; background: #22c55e; bottom: 15%; right: 20%; animation-delay: -3s; opacity: .28; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -40px) scale(1.12); }
+  66%      { transform: translate(-30px, 30px) scale(.92); }
+}
+
+/* grain overlay */
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: .5;
+}
+
+/* ============ HERO ============ */
+.hero {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 76px 22px 44px;
+  text-align: center;
+  position: relative;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #ffd7a8;
+  border: 1px solid rgba(255,170,80,.32);
+  border-radius: 100px;
+  background: rgba(255,140,40,.09);
+  box-shadow: 0 0 26px rgba(255,140,40,.22), inset 0 0 22px rgba(255,140,40,.07);
+  animation: badgePulse 3s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%,100% { box-shadow: 0 0 26px rgba(255,140,40,.22), inset 0 0 22px rgba(255,140,40,.07); }
+  50%     { box-shadow: 0 0 46px rgba(255,140,40,.42), inset 0 0 22px rgba(255,140,40,.14); }
+}
+
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.3rem, 8vw, 4.6rem);
+  font-weight: 900;
+  letter-spacing: .04em;
+  line-height: 1.05;
+  margin: 26px 0 14px;
+  background: linear-gradient(100deg, #fff 0%, #c4b5fd 35%, #67e8f9 65%, #fff 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 6s linear infinite;
+  filter: drop-shadow(0 0 34px rgba(139,92,246,.45));
+}
+@keyframes shine { to { background-position: 220% center; } }
+
+.hero .tagline {
+  font-size: clamp(.85rem, 2.6vw, 1rem);
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: .06em;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.hero .tagline b { color: #a5f3fc; font-weight: 600; }
+
+/* feature chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+.chip {
+  font-size: .76rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.04);
+  color: #c9cfe8;
+  backdrop-filter: blur(10px);
+  transition: .3s;
+}
+.chip:hover { border-color: rgba(139,92,246,.55); color: #fff; transform: translateY(-2px); }
+
+/* hero buttons */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 34px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 30px;
+  border-radius: 100px;
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: .02em;
+  transition: .3s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary {
+  color: #04140a;
+  background: linear-gradient(135deg, #34e07a, #25d366 55%, #12b886);
+  box-shadow: 0 10px 34px rgba(37,211,102,.42);
+}
+.btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 44px rgba(37,211,102,.6); }
+.btn-ghost {
+  color: #dfe3ff;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.05);
+  backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { border-color: rgba(167,139,250,.7); background: rgba(167,139,250,.12); transform: translateY(-3px); }
+
+/* ============ SECTION TITLE ============ */
+.section-head {
+  max-width: 1160px;
+  margin: 30px auto 0;
+  padding: 0 22px;
+  text-align: center;
+}
+.section-head h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.05rem, 3.6vw, 1.5rem);
+  letter-spacing: .22em;
+  color: #fff;
+  text-transform: uppercase;
+}
+.section-head h2 span { color: #a78bfa; }
+.section-head .line {
+  width: 120px; height: 2px;
+  margin: 14px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, #a78bfa, #22d3ee, transparent);
+  box-shadow: 0 0 16px rgba(167,139,250,.8);
+}
+
+/* ============ GRID ============ */
+.grid {
+  max-width: 1160px;
+  margin: 42px auto 0;
+  padding: 0 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(272px, 1fr));
+  gap: 24px;
+}
+
+/* ============ CARD ============ */
+.card {
+  position: relative;
+  border-radius: 22px;
+  padding: 26px 22px 22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015)),
+    rgba(10,10,22,.72);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+  transition: .4s cubic-bezier(.4,0,.2,1);
+  isolation: isolate;
+}
+
+/* accent glow border */
+.card::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(160deg, var(--a), transparent 45%, transparent 60%, var(--b));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: .55;
+  transition: .4s;
+  pointer-events: none;
+}
+
+/* colored bloom behind */
+.card::after {
+  content: "";
+  position: absolute;
+  width: 200px; height: 200px;
+  top: -70px; right: -70px;
+  border-radius: 50%;
+  background: var(--a);
+  filter: blur(70px);
+  opacity: .3;
+  transition: .5s;
+  z-index: -1;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: transparent;
+  box-shadow: 0 26px 60px -18px var(--a), 0 0 0 1px rgba(255,255,255,.07);
+}
+.card:hover::before { opacity: 1; }
+.card:hover::after { opacity: .55; transform: scale(1.35); }
+
+/* card head */
+.card__head { text-align: center; padding-bottom: 18px; }
+
+.card__icon {
+  width: 60px; height: 60px;
+  margin: 0 auto 14px;
+  display: grid; place-items: center;
+  font-size: 1.6rem;
+  border-radius: 18px;
+  background: linear-gradient(150deg, var(--a), var(--b));
+  box-shadow: 0 10px 26px -8px var(--a), inset 0 0 18px rgba(255,255,255,.22);
+  transition: .4s;
+}
+.card:hover .card__icon { transform: rotate(-8deg) scale(1.1); }
+
+.card__head h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 0 22px var(--a);
+}
+.card__tag {
+  display: inline-block;
+  margin-top: 9px;
+  font-size: .64rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 5px 13px;
+  border-radius: 100px;
+  color: var(--b);
+  background: color-mix(in srgb, var(--a) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--a) 38%, transparent);
+}
+
+/* divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  margin: 4px 0 16px;
+}
+
+/* price list */
+.price-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+
+.price-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 11px;
+  font-size: .875rem;
+  transition: .25s;
+}
+.price-list li:hover {
+  background: color-mix(in srgb, var(--a) 13%, transparent);
+  transform: translateX(4px);
+}
+.price-list .dur { color: #c3c9e6; font-weight: 500; white-space: nowrap; }
+.price-list .dots {
+  flex: 1;
+  border-bottom: 1.5px dashed rgba(255,255,255,.14);
+  transform: translateY(-4px);
+  min-width: 14px;
+}
+.price-list .price {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 0 16px var(--b);
+}
+
+/* order button */
+.card__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 13px;
+  border-radius: 14px;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #08080f;
+  background: linear-gradient(135deg, var(--a), var(--b));
+  box-shadow: 0 10px 26px -10px var(--a);
+  transition: .3s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.card__btn::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -120%;
+  width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-20deg);
+  transition: .6s;
+}
+.card__btn:hover::after { left: 140%; }
+.card__btn:hover { transform: translateY(-3px); box-shadow: 0 16px 34px -10px var(--a); }
+.card__btn:active { transform: translateY(0) scale(.98); }
+
+/* ============ KONTAK / WA LIST ============ */
+.contact-wrap {
+  max-width: 720px;
+  margin: 46px auto 0;
+  padding: 0 22px;
+}
+.contact {
+  position: relative;
+  border-radius: 22px;
+  padding: 28px 24px;
+  text-align: center;
+  background:
+    linear-gradient(180deg, rgba(37,211,102,.10), rgba(255,255,255,.015)),
+    rgba(10,10,22,.72);
+  border: 1px solid rgba(37,211,102,.32);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 46px -14px rgba(37,211,102,.55);
+  overflow: hidden;
+  transition: .4s;
+}
+.contact:hover { box-shadow: 0 0 60px -10px rgba(37,211,102,.7); border-color: rgba(37,211,102,.55); }
+
+.contact__label {
+  font-size: .68rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #7ff0ad;
+}
+.contact__number {
+  display: block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.25rem, 6vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: .06em;
+  margin: 12px 0 6px;
+  text-decoration: none;
+  color: #fff;
+  text-shadow: 0 0 26px rgba(37,211,102,.85);
+  transition: .3s;
+}
+.contact__number:hover { color: #7ff0ad; transform: scale(1.03); }
+.contact__note {
+  font-size: .78rem;
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+.contact__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  padding: 13px 30px;
+  border-radius: 100px;
+  font-size: .84rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #04140a;
+  background: linear-gradient(135deg, #34e07a, #12b886);
+  box-shadow: 0 12px 30px -10px rgba(37,211,102,.9);
+  transition: .3s;
+}
+.contact__btn:hover { transform: translateY(-3px) scale(1.03); }
+
+/* ============ FOOTER ============ */
+.footer {
+  max-width: 1160px;
+  margin: 60px auto 0;
+  padding: 40px 22px 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.footer .brand {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: .2em;
+  background: linear-gradient(90deg, #a78bfa, #22d3ee, #a78bfa);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 5s linear infinite;
+}
+.footer .thanks {
+  margin-top: 12px;
+  font-size: .8rem;
+  color: var(--muted);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.footer .copy {
+  margin-top: 22px;
+  font-size: .72rem;
+  color: #4b5175;
+}
+
+/* ============ FLOATING WA ============ */
+.wa-float {
+  position: fixed;
+  right: 20px; bottom: 20px;
+  z-index: 50;
+  width: 58px; height: 58px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #34e07a, #12b886);
+  box-shadow: 0 12px 34px rgba(37,211,102,.5);
+  text-decoration: none;
+  transition: .3s;
+  animation: waPulse 2.6s ease-in-out infinite;
+}
+.wa-float svg { width: 30px; height: 30px; fill: #04140a; }
+.wa-float:hover { transform: scale(1.12) rotate(6deg); }
+
+@keyframes waPulse {
+  0%,100% { box-shadow: 0 12px 34px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.5); }
+  50%     { box-shadow: 0 12px 34px rgba(37,211,102,.5), 0 0 0 16px rgba(37,211,102,0); }
+}
+
+/* ============ REVEAL ANIMATION ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 620px) {
+  .hero { padding-top: 54px; }
+  .grid { gap: 18px; }
+  .card { padding: 22px 18px 18px; border-radius: 20px; }
+  .price-list li { font-size: .82rem; padding: 8px 6px; }
+  .price-list .price { font-size: .86rem; }
+  .btn { padding: 12px 24px; font-size: .84rem; }
+  .contact { padding: 24px 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div class="orbs">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="badge">🔥 FF APK MOD · NON ROOT</div>
+
+  <h1>RASYA STORE</h1>
+
+  <p class="tagline">
+    Cheat <b>Aman</b> &amp; <b>Full Tutorial</b> Pemakaian — langsung gas tanpa ribet.
+  </p>
+
+  <div class="chips">
+    <span class="chip">🛡️ Anti Banned</span>
+    <span class="chip">📖 Full Tutorial</span>
+    <span class="chip">⚡ Fast Respon</span>
+    <span class="chip">🔓 Non Root</span>
+  </div>
+
+  <div class="hero-actions">
+    <a class="btn btn-primary"
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20panel"
+       target="_blank" rel="noopener">
+      💬 Order Sekarang
+    </a>
+    <a class="btn btn-ghost" href="#pricelist">📋 Lihat Pricelist</a>
+  </div>
+</header>
+
+<!-- SECTION TITLE -->
+<div class="section-head" id="pricelist">
+  <h2>✦ <span>Price List</span> Panel ✦</h2>
+  <div class="line"></div>
+</div>
+
+<!-- CARDS -->
+<main class="grid">
+
+  <!-- AIM HACK -->
+  <article class="card reveal" style="--a:#a855f7; --b:#e879f9;">
+    <div class="card__head">
+      <div class="card__icon">🎯</div>
+      <h3>AIM HACK</h3>
+      <span class="card__tag">Auto Headshot</span>
+    </div>
+    <div class="divider"></div>
+    <ul class="price-list">
+      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">5K</span></li>
+      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">10K</span></li>
+      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">14K</span></li>
+      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">23K</span></li>
+    </ul>
+    <a class="card__btn"
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20AIM%20HACK"
+       target="_blank" rel="noopener">Order Aim Hack</a>
+  </article>
+
+  <!-- TROL MODZ -->
+  <article class="card reveal" style="--a:#38bdf8; --b:#818cf8;">
+    <div class="card__head">
+      <div class="card__icon">💎</div>
+      <h3>TROL MODZ</h3>
+      <span class="card__tag">Sultan Vibes</span>
+    </div>
+    <div class="divider"></div>
+    <ul class="price-list">
+      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">5K</span></li>
+      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">9K</span></li>
+      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">13K</span></li>
+      <li><span class="dur">30 HARI</span><span class="dots"></span><span class="price">20K</span></li>
+    </ul>
+    <a class="card__btn"
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20TROL%20MODZ"
+       target="_blank" rel="noopener">Order Trol Modz</a>
+  </article>
+
+  <!-- XREG -->
+  <article class="card reveal" style="--a:#22c55e; --b:#a3e635;">
+    <div class="card__head">
+      <div class="card__icon">🌐</div>
+      <h3>XREG</h3>
+      <span class="card__tag">Register Aman</span>
+    </div>
+    <div class="divider"></div>
+    <ul class="price-list">
+      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">4K</span></li>
+      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">7K</span></li>
+      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">10K</span></li>
+      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">20K</span></li>
+    </ul>
+    <a class="card__btn"
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20XREG"
+       target="_blank" rel="noopener">Order Xreg</a>
+  </article>
+
+</main>
+
+<!-- KONTAK WHATSAPP -->
+<div class="contact-wrap reveal">
+  <section class="contact">
+    <div class="contact__label">📞 Kontak Order</div>
+    <a class="contact__number"
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order"
+       target="_blank" rel="noopener">6289677269810</a>
+    <p class="contact__note">Klik nomor di atas untuk langsung chat WhatsApp</p>
+    <a class="contact__btn"
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order"
+       target="_blank" rel="noopener">💬 Chat Admin</a>
+  </section>
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa-float" href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.48.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/>
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.03-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.24 8.21z"/>
+  </svg>
+</a>
+
+<!-- SCROLL REVEAL -->
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 90);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  els.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
