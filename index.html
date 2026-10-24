@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ListEpepRasyaStore</title>
+<title>ListPanelEpepRasyaStore</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -20,6 +20,7 @@
   --text:      #eef1ff;
   --muted:     #8b91b5;
   --wa:        #25d366;
+  --tg:        #229ED9;
 }
 
 html { scroll-behavior: smooth; }
@@ -170,6 +171,12 @@ body::after {
   box-shadow: 0 10px 34px rgba(37,211,102,.42);
 }
 .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 44px rgba(37,211,102,.6); }
+.btn-tg {
+  color: #04121a;
+  background: linear-gradient(135deg, #4fc3f7, #229ED9 55%, #1876b0);
+  box-shadow: 0 10px 34px rgba(34,158,217,.42);
+}
+.btn-tg:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 44px rgba(34,158,217,.6); }
 .btn-ghost {
   color: #dfe3ff;
   border: 1px solid var(--stroke);
@@ -373,16 +380,20 @@ body::after {
 .card__btn:hover { transform: translateY(-3px); box-shadow: 0 16px 34px -10px var(--a); }
 .card__btn:active { transform: translateY(0) scale(.98); }
 
-/* ============ KONTAK / WA LIST ============ */
+/* ============ KONTAK SECTION ============ */
 .contact-wrap {
-  max-width: 720px;
+  max-width: 760px;
   margin: 46px auto 0;
   padding: 0 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
 }
+
 .contact {
   position: relative;
   border-radius: 22px;
-  padding: 28px 24px;
+  padding: 26px 22px;
   text-align: center;
   background:
     linear-gradient(180deg, rgba(37,211,102,.10), rgba(255,255,255,.015)),
@@ -395,39 +406,54 @@ body::after {
 }
 .contact:hover { box-shadow: 0 0 60px -10px rgba(37,211,102,.7); border-color: rgba(37,211,102,.55); }
 
+.contact--tg {
+  background:
+    linear-gradient(180deg, rgba(34,158,217,.12), rgba(255,255,255,.015)),
+    rgba(10,10,22,.72);
+  border-color: rgba(34,158,217,.35);
+  box-shadow: 0 0 46px -14px rgba(34,158,217,.55);
+}
+.contact--tg:hover { box-shadow: 0 0 60px -10px rgba(34,158,217,.75); border-color: rgba(34,158,217,.6); }
+
 .contact__label {
-  font-size: .68rem;
+  font-size: .66rem;
   letter-spacing: .24em;
   text-transform: uppercase;
   font-weight: 600;
   color: #7ff0ad;
 }
+.contact--tg .contact__label { color: #7fd6ff; }
+
 .contact__number {
   display: block;
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.25rem, 6vw, 1.85rem);
+  font-size: clamp(1rem, 4.2vw, 1.35rem);
   font-weight: 800;
-  letter-spacing: .06em;
+  letter-spacing: .05em;
   margin: 12px 0 6px;
   text-decoration: none;
   color: #fff;
   text-shadow: 0 0 26px rgba(37,211,102,.85);
   transition: .3s;
 }
+.contact--tg .contact__number { text-shadow: 0 0 26px rgba(34,158,217,.85); }
 .contact__number:hover { color: #7ff0ad; transform: scale(1.03); }
+.contact--tg .contact__number:hover { color: #7fd6ff; }
+
 .contact__note {
-  font-size: .78rem;
+  font-size: .74rem;
   color: var(--muted);
   letter-spacing: .04em;
 }
+
 .contact__btn {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  margin-top: 20px;
-  padding: 13px 30px;
+  margin-top: 18px;
+  padding: 12px 26px;
   border-radius: 100px;
-  font-size: .84rem;
+  font-size: .8rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -436,6 +462,11 @@ body::after {
   background: linear-gradient(135deg, #34e07a, #12b886);
   box-shadow: 0 12px 30px -10px rgba(37,211,102,.9);
   transition: .3s;
+}
+.contact--tg .contact__btn {
+  color: #04121a;
+  background: linear-gradient(135deg, #4fc3f7, #229ED9);
+  box-shadow: 0 12px 30px -10px rgba(34,158,217,.9);
 }
 .contact__btn:hover { transform: translateY(-3px) scale(1.03); }
 
@@ -472,22 +503,36 @@ body::after {
   color: #4b5175;
 }
 
-/* ============ FLOATING WA ============ */
-.wa-float {
+/* ============ FLOATING BUTTONS ============ */
+.float-stack {
   position: fixed;
   right: 20px; bottom: 20px;
   z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wa-float, .tg-float {
   width: 58px; height: 58px;
   display: grid; place-items: center;
   border-radius: 50%;
-  background: linear-gradient(140deg, #34e07a, #12b886);
-  box-shadow: 0 12px 34px rgba(37,211,102,.5);
   text-decoration: none;
   transition: .3s;
+}
+.wa-float {
+  background: linear-gradient(140deg, #34e07a, #12b886);
+  box-shadow: 0 12px 34px rgba(37,211,102,.5);
   animation: waPulse 2.6s ease-in-out infinite;
 }
-.wa-float svg { width: 30px; height: 30px; fill: #04140a; }
-.wa-float:hover { transform: scale(1.12) rotate(6deg); }
+.tg-float {
+  background: linear-gradient(140deg, #4fc3f7, #229ED9);
+  box-shadow: 0 12px 34px rgba(34,158,217,.5);
+}
+.wa-float svg, .tg-float svg { width: 28px; height: 28px; }
+.wa-float svg { fill: #04140a; }
+.tg-float svg { fill: #04121a; }
+.wa-float:hover, .tg-float:hover { transform: scale(1.12) rotate(-6deg); }
 
 @keyframes waPulse {
   0%,100% { box-shadow: 0 12px 34px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.5); }
@@ -510,7 +555,8 @@ body::after {
   .price-list li { font-size: .82rem; padding: 8px 6px; }
   .price-list .price { font-size: .86rem; }
   .btn { padding: 12px 24px; font-size: .84rem; }
-  .contact { padding: 24px 18px; }
+  .contact { padding: 22px 16px; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -545,14 +591,18 @@ body::after {
     <span class="chip">📖 Full Tutorial</span>
     <span class="chip">⚡ Fast Respon</span>
     <span class="chip">🔓 Non Root</span>
-    <span class="chip">🔓 Full Tutorial</span>
   </div>
 
   <div class="hero-actions">
     <a class="btn btn-primary"
        href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20panel"
        target="_blank" rel="noopener">
-      💬 Order Sekarang
+      💬 WhatsApp
+    </a>
+    <a class="btn btn-tg"
+       href="https://t.me/RasyaXD"
+       target="_blank" rel="noopener">
+      ✈️ Telegram
     </a>
     <a class="btn btn-ghost" href="#pricelist">📋 Lihat Pricelist</a>
   </div>
@@ -567,10 +617,10 @@ body::after {
 <!-- CARDS -->
 <main class="grid">
 
-  <!-- AIM HACK -->
+  <!-- PHANTOM -->
   <article class="card reveal" style="--a:#a855f7; --b:#e879f9;">
     <div class="card__head">
-      <div class="card__icon">🎯</div>
+      <div class="card__icon">👻</div>
       <h3>PHANTOM</h3>
       <span class="card__tag">DRAG TIPIS HS COCOK UNTUK CSR / BR / FT / ISIAN</span>
     </div>
@@ -582,8 +632,8 @@ body::after {
       <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">23K</span></li>
     </ul>
     <a class="card__btn"
-       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20AIM%20HACK"
-       target="_blank" rel="noopener">Order Aim Hack</a>
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20PHANTOM"
+       target="_blank" rel="noopener">Order Phantom</a>
   </article>
 
   <!-- TROL MODZ -->
@@ -598,7 +648,7 @@ body::after {
       <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">5K</span></li>
       <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">9K</span></li>
       <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">13K</span></li>
-      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">19K</span></li>
+      <li><span class="dur">30 HARI</span><span class="dots"></span><span class="price">19K</span></li>
     </ul>
     <a class="card__btn"
        href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20TROL%20MODZ"
@@ -645,27 +695,57 @@ body::after {
 
 </main>
 
-<!-- KONTAK WHATSAPP -->
+<!-- KONTAK -->
 <div class="contact-wrap reveal">
+
   <section class="contact">
-    <div class="contact__label">📞 Kontak Order</div>
+    <div class="contact__label">📞 Kontak WhatsApp</div>
     <a class="contact__number"
        href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order"
        target="_blank" rel="noopener">6289677269810</a>
-    <p class="contact__note">Klik nomor di atas untuk langsung chat WhatsApp</p>
+    <p class="contact__note">Klik nomor untuk langsung chat</p>
     <a class="contact__btn"
        href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order"
        target="_blank" rel="noopener">💬 Chat Admin</a>
   </section>
+
+  <section class="contact contact--tg">
+    <div class="contact__label">✈️ Kontak Telegram</div>
+    <a class="contact__number"
+       href="https://t.me/RasyaXD"
+       target="_blank" rel="noopener">t.me/RasyaXD</a>
+    <p class="contact__note">Klik link untuk langsung chat</p>
+    <a class="contact__btn"
+       href="https://t.me/RasyaXD"
+       target="_blank" rel="noopener">✈️ Chat Telegram</a>
+  </section>
+
 </div>
 
-<!-- FLOATING WHATSAPP -->
-<a class="wa-float" href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.48.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/>
-    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.03-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.24 8.21z"/>
-  </svg>
-</a>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="brand">💜 RASYA STORE ⭐</div>
+  <p class="thanks">✨ Terima kasih sudah order ✨</p>
+  <p class="copy">© 2026 Rasya Store · All Rights Reserved</p>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="float-stack">
+
+  <a class="tg-float" href="https://t.me/RasyaXD" target="_blank" rel="noopener" aria-label="Chat Telegram">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+    </svg>
+  </a>
+
+  <a class="wa-float" href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.48.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/>
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.03-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.24 8.21z"/>
+    </svg>
+  </a>
+
+</div>
 
 <!-- SCROLL REVEAL -->
 <script>
