@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ListPanelEpepRasyaStore</title>
+<title>ListPanelEpep</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -33,6 +33,15 @@ body {
   overflow-x: hidden;
   position: relative;
   padding-bottom: 90px;
+}
+
+/* ============ AUDIO (HIDDEN) ============ */
+#bgm {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  left: -9999px;
 }
 
 /* ============ BACKGROUND ORBS ============ */
@@ -568,6 +577,11 @@ body::after {
 
 <body>
 
+<!-- 🎵 BACKGROUND MUSIC (AUTO PLAY + LOOP) -->
+<audio id="bgm" loop autoplay preload="auto" playsinline>
+  <source src="https://l.top4top.io/m_39539lzmr0.mp3" type="audio/mpeg">
+</audio>
+
 <!-- BACKGROUND -->
 <div class="orbs">
   <div class="orb"></div>
@@ -725,9 +739,8 @@ body::after {
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="brand">💜 RASYA STORE ⭐</div>
+  <div class="brand">RASYA STORE ⭐</div>
   <p class="thanks">✨ Terima kasih sudah order ✨</p>
-  <p class="copy">© 2026 Rasya Store · All Rights Reserved</p>
 </footer>
 
 <!-- FLOATING BUTTONS -->
@@ -748,8 +761,56 @@ body::after {
 
 </div>
 
-<!-- SCROLL REVEAL -->
+<!-- ============ SCRIPT ============ -->
 <script>
+/* ---------- BACKGROUND MUSIC CONTROL ---------- */
+(function () {
+  const bgm = document.getElementById('bgm');
+
+  // setelan awal
+  bgm.loop    = true;
+  bgm.volume  = 0.85;
+  bgm.muted   = false;
+
+  // coba play langsung
+  const tryPlay = () => {
+    bgm.muted = false;
+    if (bgm.volume === 0) bgm.volume = 0.85;
+    if (bgm.paused) {
+      const p = bgm.play();
+      if (p && p.catch) p.catch(() => {});
+    }
+  };
+
+  tryPlay();
+
+  // kalau diblokir browser, nyalakan di interaksi pertama user
+  ['click', 'touchstart', 'touchend', 'scroll', 'keydown', 'mousemove', 'pointerdown']
+    .forEach(evt => {
+      document.addEventListener(evt, tryPlay, { passive: true });
+      window.addEventListener(evt, tryPlay, { passive: true });
+    });
+
+  // jaga-jaga: kalau ke-pause (tab switch, dll), paksa main lagi
+  setInterval(() => {
+    if (bgm.paused) tryPlay();
+    if (bgm.muted)  bgm.muted = false;
+    if (bgm.volume < 0.01) bgm.volume = 0.85;
+  }, 1200);
+
+  // saat tab kembali aktif
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tryPlay();
+  });
+
+  // audio tidak boleh hilang kendali dari elemen
+  bgm.addEventListener('pause', () => {
+    setTimeout(tryPlay, 200);
+  });
+})();
+
+/* ---------- SCROLL REVEAL ---------- */
+(function () {
   const els = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -760,6 +821,7 @@ body::after {
     });
   }, { threshold: 0.15 });
   els.forEach(el => io.observe(el));
+})();
 </script>
 
 </body>
