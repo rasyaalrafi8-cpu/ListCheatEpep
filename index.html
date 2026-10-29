@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ListPanelEpep</title>
+<title>ListPanelRasyaStore</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@
   --muted:     #8b91b5;
   --wa:        #25d366;
   --tg:        #229ED9;
+  --bg-img:    url("https://cdn.zass.in/wpDUN0E8wD.jpg");
 }
 
 html { scroll-behavior: smooth; }
@@ -35,6 +36,37 @@ body {
   padding-bottom: 90px;
 }
 body.locked { overflow: hidden; }
+
+/* ============ BACKGROUND IMAGE LAYER ============ */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background-image: var(--bg-img);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: saturate(1.15) contrast(1.05) brightness(.75);
+}
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(5,5,13,.35) 0%, rgba(5,5,13,.78) 55%, rgba(5,5,13,.92) 100%),
+    linear-gradient(180deg, rgba(5,5,13,.55) 0%, rgba(5,5,13,.75) 45%, rgba(5,5,13,.95) 100%);
+  pointer-events: none;
+}
+
+/* grain */
+body::after {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: .4;
+}
 
 /* ============ AUDIO ============ */
 #bgm {
@@ -59,12 +91,8 @@ body.locked { overflow: hidden; }
   font-family: 'Orbitron', sans-serif;
   transition: opacity 1s ease, visibility 1s ease;
 }
-.ps2-boot.fade-out {
-  opacity: 0;
-  visibility: hidden;
-}
+.ps2-boot.fade-out { opacity: 0; visibility: hidden; }
 
-/* Glow pusat */
 .ps2-glow {
   position: absolute;
   top: 50%; left: 50%;
@@ -87,12 +115,7 @@ body.locked { overflow: hidden; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: .85; }
 }
 
-/* Partikel konvergen */
-.ps2-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+.ps2-particles { position: absolute; inset: 0; pointer-events: none; }
 .ps2-particle {
   position: absolute;
   top: 50%; left: 50%;
@@ -117,7 +140,6 @@ body.locked { overflow: hidden; }
   }
 }
 
-/* Light rays */
 .ps2-rays {
   position: absolute;
   top: 50%; left: 50%;
@@ -147,7 +169,6 @@ body.locked { overflow: hidden; }
   100% { opacity: 0; }
 }
 
-/* Content wrapper */
 .ps2-content {
   position: relative;
   z-index: 3;
@@ -155,8 +176,6 @@ body.locked { overflow: hidden; }
   padding: 0 16px;
   max-width: 100%;
 }
-
-/* "PRESENTS" */
 .ps2-presents {
   font-size: clamp(.6rem, 2.2vw, .78rem);
   letter-spacing: .5em;
@@ -169,8 +188,6 @@ body.locked { overflow: hidden; }
   0%   { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: none; }
 }
-
-/* Logo */
 .ps2-logo {
   font-size: clamp(1.5rem, 7.5vw, 5rem);
   font-weight: 900;
@@ -191,8 +208,6 @@ body.locked { overflow: hidden; }
   0%   { opacity: 0; letter-spacing: 1em; filter: blur(24px); transform: scale(1.12); }
   100% { opacity: 1; letter-spacing: .12em; filter: blur(0);   transform: scale(1); }
 }
-
-/* Garis bawah logo */
 .ps2-line {
   width: 0;
   height: 2px;
@@ -207,8 +222,6 @@ body.locked { overflow: hidden; }
   0%   { width: 0; opacity: 0; }
   100% { width: min(340px, 70vw); opacity: 1; }
 }
-
-/* Subtitle */
 .ps2-sub {
   margin-top: 16px;
   font-size: clamp(.58rem, 2.3vw, .82rem);
@@ -222,8 +235,6 @@ body.locked { overflow: hidden; }
   0%   { opacity: 0; transform: translateY(-6px); }
   100% { opacity: 1; transform: none; }
 }
-
-/* Loading bar */
 .ps2-loading {
   position: absolute;
   bottom: 62px;
@@ -249,8 +260,6 @@ body.locked { overflow: hidden; }
   0%   { width: 0; }
   100% { width: 100%; }
 }
-
-/* Scanline CRT overlay */
 .ps2-boot::after {
   content: "";
   position: absolute;
@@ -278,8 +287,9 @@ body.locked { overflow: hidden; }
   background:
     radial-gradient(circle at 50% 40%, rgba(124,58,237,.22) 0%, transparent 55%),
     radial-gradient(circle at 80% 80%, rgba(14,165,233,.15) 0%, transparent 55%),
-    #05050d;
+    rgba(5,5,13,.94);
   transition: opacity .8s ease, visibility .8s ease;
+  backdrop-filter: blur(12px);
 }
 .lock-screen::before {
   content: "";
@@ -327,7 +337,6 @@ body.locked { overflow: hidden; }
   color: transparent;
   animation: shine 5s linear infinite;
 }
-
 .lock-sub {
   margin-top: 10px;
   font-size: .76rem;
@@ -335,7 +344,6 @@ body.locked { overflow: hidden; }
   text-transform: uppercase;
   color: var(--muted);
 }
-
 .fingerprint {
   position: relative;
   margin: 34px auto 22px;
@@ -423,7 +431,6 @@ body.locked { overflow: hidden; }
   transition: .3s;
 }
 .lock-hint.muted { color: var(--muted); }
-
 .lock-foot {
   margin-top: 22px;
   padding-top: 18px;
@@ -432,33 +439,6 @@ body.locked { overflow: hidden; }
   color: #4b5175;
   letter-spacing: .18em;
   text-transform: uppercase;
-}
-
-/* ============ BACKGROUND ORBS ============ */
-.orbs { position: fixed; inset: 0; z-index: -2; overflow: hidden; }
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: .45;
-  animation: float 18s ease-in-out infinite;
-}
-.orb:nth-child(1) { width: 480px; height: 480px; background: #7c3aed; top: -160px; left: -120px; }
-.orb:nth-child(2) { width: 420px; height: 420px; background: #0ea5e9; top: 30%; right: -160px; animation-delay: -6s; }
-.orb:nth-child(3) { width: 400px; height: 400px; background: #ef4444; bottom: -140px; left: 25%; animation-delay: -12s; }
-.orb:nth-child(4) { width: 340px; height: 340px; background: #22c55e; bottom: 15%; right: 20%; animation-delay: -3s; opacity: .28; }
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%      { transform: translate(40px, -40px) scale(1.12); }
-  66%      { transform: translate(-30px, 30px) scale(.92); }
-}
-
-body::after {
-  content: "";
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px);
-  background-size: 3px 3px;
-  opacity: .5;
 }
 
 /* ============ HERO ============ */
@@ -480,7 +460,8 @@ body::after {
   color: #ffd7a8;
   border: 1px solid rgba(255,170,80,.32);
   border-radius: 100px;
-  background: rgba(255,140,40,.09);
+  background: rgba(255,140,40,.12);
+  backdrop-filter: blur(10px);
   box-shadow: 0 0 26px rgba(255,140,40,.22), inset 0 0 22px rgba(255,140,40,.07);
   animation: badgePulse 3s ease-in-out infinite;
 }
@@ -501,15 +482,16 @@ body::after {
   background-clip: text;
   color: transparent;
   animation: shine 6s linear infinite;
-  filter: drop-shadow(0 0 34px rgba(139,92,246,.45));
+  filter: drop-shadow(0 0 34px rgba(139,92,246,.65));
 }
 @keyframes shine { to { background-position: 220% center; } }
 .hero .tagline {
   font-size: clamp(.85rem, 2.6vw, 1rem);
-  color: var(--muted);
+  color: #c9cfe8;
   letter-spacing: .06em;
   max-width: 560px;
   margin: 0 auto;
+  text-shadow: 0 2px 14px rgba(0,0,0,.8);
 }
 .hero .tagline b { color: #a5f3fc; font-weight: 600; }
 .chips {
@@ -525,8 +507,8 @@ body::after {
   padding: 8px 16px;
   border-radius: 100px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.04);
-  color: #c9cfe8;
+  background: rgba(10,10,22,.55);
+  color: #dfe3ff;
   backdrop-filter: blur(10px);
   transition: .3s;
 }
@@ -565,10 +547,10 @@ body::after {
 .btn-ghost {
   color: #dfe3ff;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.05);
+  background: rgba(10,10,22,.55);
   backdrop-filter: blur(10px);
 }
-.btn-ghost:hover { border-color: rgba(167,139,250,.7); background: rgba(167,139,250,.12); transform: translateY(-3px); }
+.btn-ghost:hover { border-color: rgba(167,139,250,.7); background: rgba(167,139,250,.16); transform: translateY(-3px); }
 
 /* ============ SECTION TITLE ============ */
 .section-head {
@@ -583,6 +565,7 @@ body::after {
   letter-spacing: .22em;
   color: #fff;
   text-transform: uppercase;
+  text-shadow: 0 2px 20px rgba(0,0,0,.85);
 }
 .section-head h2 span { color: #a78bfa; }
 .section-head .line {
@@ -610,7 +593,7 @@ body::after {
   padding: 26px 22px 22px;
   background:
     linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015)),
-    rgba(10,10,22,.72);
+    rgba(8,8,18,.82);
   border: 1px solid var(--stroke);
   backdrop-filter: blur(18px);
   overflow: hidden;
@@ -765,8 +748,8 @@ body::after {
   padding: 26px 22px;
   text-align: center;
   background:
-    linear-gradient(180deg, rgba(37,211,102,.10), rgba(255,255,255,.015)),
-    rgba(10,10,22,.72);
+    linear-gradient(180deg, rgba(37,211,102,.14), rgba(255,255,255,.015)),
+    rgba(8,8,18,.82);
   border: 1px solid rgba(37,211,102,.32);
   backdrop-filter: blur(18px);
   box-shadow: 0 0 46px -14px rgba(37,211,102,.55);
@@ -775,8 +758,8 @@ body::after {
 .contact:hover { box-shadow: 0 0 60px -10px rgba(37,211,102,.7); border-color: rgba(37,211,102,.55); }
 .contact--tg {
   background:
-    linear-gradient(180deg, rgba(34,158,217,.12), rgba(255,255,255,.015)),
-    rgba(10,10,22,.72);
+    linear-gradient(180deg, rgba(34,158,217,.15), rgba(255,255,255,.015)),
+    rgba(8,8,18,.82);
   border-color: rgba(34,158,217,.35);
   box-shadow: 0 0 46px -14px rgba(34,158,217,.55);
 }
@@ -836,6 +819,9 @@ body::after {
   padding: 40px 22px 20px;
   text-align: center;
   border-top: 1px solid rgba(255,255,255,.07);
+  background: rgba(5,5,13,.35);
+  backdrop-filter: blur(8px);
+  border-radius: 20px 20px 0 0;
 }
 .footer .brand {
   font-family: 'Orbitron', sans-serif;
@@ -913,6 +899,7 @@ body::after {
   .lock-card { padding: 32px 22px; }
   .fingerprint { width: 120px; height: 120px; }
   .fingerprint svg { width: 56px; height: 56px; }
+  .bg-layer { background-attachment: scroll; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -924,6 +911,10 @@ body::after {
 </head>
 
 <body class="locked">
+
+<!-- 🖼️ BACKGROUND IMAGE + OVERLAY -->
+<div class="bg-layer" aria-hidden="true"></div>
+<div class="bg-overlay" aria-hidden="true"></div>
 
 <!-- 🎬 PS2 BOOT / WELCOME SCREEN -->
 <div class="ps2-boot" id="ps2Boot" aria-hidden="true">
@@ -949,7 +940,7 @@ body::after {
 <!-- 🔒 LOCK SCREEN SIDIK JARI -->
 <div class="lock-screen" id="lockScreen">
   <div class="lock-card">
-    <div class="lock-brand">💜 RASYA STORE ⭐</div>
+    <div class="lock-brand"> RASYA STORE </div>
     <p class="lock-sub">Verifikasi Diperlukan</p>
 
     <button class="fingerprint" id="fingerprintBtn" aria-label="Buka dengan sidik jari">
@@ -971,14 +962,6 @@ body::after {
     <p class="lock-hint" id="lockHint">Sentuh sidik jari untuk membuka</p>
     <div class="lock-foot">🔒 Protected Area · Rasya Store</div>
   </div>
-</div>
-
-<!-- BACKGROUND -->
-<div class="orbs">
-  <div class="orb"></div>
-  <div class="orb"></div>
-  <div class="orb"></div>
-  <div class="orb"></div>
 </div>
 
 <!-- HERO -->
@@ -1033,25 +1016,6 @@ body::after {
        target="_blank" rel="noopener">Order Phantom</a>
   </article>
 
-  <!-- TROL MODZ -->
-  <article class="card reveal" style="--a:#38bdf8; --b:#818cf8;">
-    <div class="card__head">
-      <div class="card__icon">💎</div>
-      <h3>TROL MODZ</h3>
-      <span class="card__tag">COCOK UNTUK CSR / BR</span>
-    </div>
-    <div class="divider"></div>
-    <ul class="price-list">
-      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">5K</span></li>
-      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">9K</span></li>
-      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">13K</span></li>
-      <li><span class="dur">30 HARI</span><span class="dots"></span><span class="price">19K</span></li>
-    </ul>
-    <a class="card__btn"
-       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20TROL%20MODZ"
-       target="_blank" rel="noopener">Order Trol Modz</a>
-  </article>
-
   <!-- XREG -->
   <article class="card reveal" style="--a:#22c55e; --b:#a3e635;">
     <div class="card__head">
@@ -1076,7 +1040,7 @@ body::after {
     <div class="card__head">
       <div class="card__icon">⚡</div>
       <h3>DRIP WIRE APK MOD</h3>
-      <span class="card__tag">PANEL TERLARIS</span>
+      <span class="card__tag">PANEL BRUTAL</span>
     </div>
     <div class="divider"></div>
     <ul class="price-list">
@@ -1117,13 +1081,6 @@ body::after {
   </section>
 </div>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="brand">💜 RASYA STORE ⭐</div>
-  <p class="thanks">✨ Terima kasih sudah order ✨</p>
-  <p class="copy">© 2026 Rasya Store · All Rights Reserved</p>
-</footer>
-
 <!-- FLOATING BUTTONS -->
 <div class="float-stack">
   <a class="tg-float" href="https://t.me/RasyaXD" target="_blank" rel="noopener" aria-label="Chat Telegram">
@@ -1147,7 +1104,6 @@ body::after {
   const boot = document.getElementById('ps2Boot');
   if (!boot) return;
 
-  // Generate partikel konvergen
   const wrap = document.getElementById('ps2Particles');
   if (wrap) {
     const COUNT = 55;
@@ -1169,7 +1125,6 @@ body::after {
     }
   }
 
-  // Skip boot (tap / auto setelah selesai)
   let skipped = false;
   function endBoot() {
     if (skipped) return;
