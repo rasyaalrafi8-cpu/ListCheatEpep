@@ -59,8 +59,6 @@ body.locked { overflow: hidden; }
     linear-gradient(180deg, rgba(5,5,13,.55) 0%, rgba(5,5,13,.75) 45%, rgba(5,5,13,.95) 100%);
   pointer-events: none;
 }
-
-/* grain */
 body::after {
   content: "";
   position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -79,7 +77,32 @@ body::after {
 }
 
 /* ============================================================
-   🎬 PS2 BOOT / WELCOME SCREEN
+   ✨ SHIMMER KEYFRAME
+   ============================================================ */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   💧 RIPPLE KEYFRAME
+   ============================================================ */
+@keyframes rippleAnim {
+  0%   { transform: scale(0); opacity: .65; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  transform: scale(0);
+  animation: rippleAnim .65s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================================
+   🎬 PS2 BOOT
    ============================================================ */
 .ps2-boot {
   position: fixed;
@@ -93,19 +116,12 @@ body::after {
   transition: opacity 1s ease, visibility 1s ease;
 }
 .ps2-boot.fade-out { opacity: 0; visibility: hidden; }
-
 .ps2-glow {
   position: absolute;
   top: 50%; left: 50%;
   width: 105vmin; height: 105vmin;
   transform: translate(-50%, -50%) scale(0);
-  background: radial-gradient(
-    circle,
-    rgba(56,189,248,.55) 0%,
-    rgba(14,165,233,.28) 22%,
-    rgba(2,132,199,.10) 50%,
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(56,189,248,.55) 0%, rgba(14,165,233,.28) 22%, rgba(2,132,199,.10) 50%, transparent 70%);
   filter: blur(30px);
   animation: ps2GlowIn 2.4s ease-out .2s forwards;
   pointer-events: none;
@@ -115,13 +131,11 @@ body::after {
   60%  { opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: .85; }
 }
-
 .ps2-particles { position: absolute; inset: 0; pointer-events: none; }
 .ps2-particle {
   position: absolute;
   top: 50%; left: 50%;
-  width: var(--size);
-  height: var(--size);
+  width: var(--size); height: var(--size);
   background: #7dd3fc;
   border-radius: 50%;
   box-shadow: 0 0 8px #38bdf8, 0 0 16px #0ea5e9;
@@ -129,54 +143,30 @@ body::after {
   animation: ps2Fly var(--duration) cubic-bezier(.4,0,.6,1) var(--delay) forwards;
 }
 @keyframes ps2Fly {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist)) scale(.3);
-  }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(1);
-  }
+  0%   { opacity: 0; transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--dist)) scale(.3); }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(1); }
 }
-
-.ps2-rays {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 0; height: 0;
-  pointer-events: none;
-}
-.ps2-rays::before,
-.ps2-rays::after {
+.ps2-rays { position: absolute; top: 50%; left: 50%; width: 0; height: 0; pointer-events: none; }
+.ps2-rays::before, .ps2-rays::after {
   content: "";
   position: absolute;
   top: 50%; left: 50%;
-  width: 60vmax;
-  height: 2px;
+  width: 60vmax; height: 2px;
   background: linear-gradient(90deg, transparent, #38bdf8 30%, #bae6fd 50%, #38bdf8 70%, transparent);
   transform: translate(-50%, -50%) rotate(-22deg) scaleX(0);
   filter: blur(1.5px);
   opacity: 0;
   animation: ps2Ray 1.6s ease-out 2.4s forwards;
 }
-.ps2-rays::after {
-  transform: translate(-50%, -50%) rotate(22deg) scaleX(0);
-  animation-delay: 2.55s;
-}
+.ps2-rays::after { transform: translate(-50%, -50%) rotate(22deg) scaleX(0); animation-delay: 2.55s; }
 @keyframes ps2Ray {
   0%   { opacity: 0; }
   35%  { opacity: 1; }
   100% { opacity: 0; }
 }
-
-.ps2-content {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  padding: 0 16px;
-  max-width: 100%;
-}
+.ps2-content { position: relative; z-index: 3; text-align: center; padding: 0 16px; max-width: 100%; }
 .ps2-presents {
   font-size: clamp(.6rem, 2.2vw, .78rem);
   letter-spacing: .5em;
@@ -196,22 +186,17 @@ body::after {
   line-height: 1.1;
   margin-top: 16px;
   color: #fff;
-  text-shadow:
-    0 0 20px #38bdf8,
-    0 0 50px #0ea5e9,
-    0 0 80px #0284c7,
-    0 0 120px #075985;
+  text-shadow: 0 0 20px #38bdf8, 0 0 50px #0ea5e9, 0 0 80px #0284c7, 0 0 120px #075985;
   opacity: 0;
   filter: blur(24px);
   animation: ps2LogoIn 1.8s cubic-bezier(.2,.8,.2,1) 2.2s forwards;
 }
 @keyframes ps2LogoIn {
   0%   { opacity: 0; letter-spacing: 1em; filter: blur(24px); transform: scale(1.12); }
-  100% { opacity: 1; letter-spacing: .12em; filter: blur(0);   transform: scale(1); }
+  100% { opacity: 1; letter-spacing: .12em; filter: blur(0); transform: scale(1); }
 }
 .ps2-line {
-  width: 0;
-  height: 2px;
+  width: 0; height: 2px;
   margin: 22px auto 0;
   border-radius: 2px;
   background: linear-gradient(90deg, transparent, #38bdf8, #bae6fd, #38bdf8, transparent);
@@ -266,18 +251,12 @@ body::after {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,.018) 0px,
-    rgba(255,255,255,.018) 1px,
-    transparent 1px,
-    transparent 3px
-  );
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0px, rgba(255,255,255,.018) 1px, transparent 1px, transparent 3px);
   opacity: .55;
   z-index: 5;
 }
 
-/* ============ LOCK SCREEN (SIDIK JARI) ============ */
+/* ============ LOCK SCREEN ============ */
 .lock-screen {
   position: fixed;
   inset: 0;
@@ -305,7 +284,6 @@ body::after {
   visibility: hidden;
   pointer-events: none;
 }
-
 .lock-card {
   position: relative;
   text-align: center;
@@ -313,9 +291,7 @@ body::after {
   max-width: 380px;
   width: 100%;
   border-radius: 26px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)),
-    rgba(10,10,22,.72);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)), rgba(10,10,22,.72);
   border: 1px solid rgba(167,139,250,.25);
   backdrop-filter: blur(20px);
   box-shadow: 0 30px 80px -20px rgba(124,58,237,.5), inset 0 0 40px rgba(124,58,237,.06);
@@ -325,7 +301,6 @@ body::after {
   from { opacity: 0; transform: translateY(20px) scale(.96); }
   to   { opacity: 1; transform: none; }
 }
-
 .lock-brand {
   font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
@@ -338,6 +313,7 @@ body::after {
   color: transparent;
   animation: shine 5s linear infinite;
 }
+@keyframes shine { to { background-position: 220% center; } }
 .lock-sub {
   margin-top: 10px;
   font-size: .76rem;
@@ -365,33 +341,27 @@ body::after {
   user-select: none;
 }
 .fingerprint svg {
-  width: 66px;
-  height: 66px;
+  width: 66px; height: 66px;
   position: relative;
   z-index: 2;
   transition: .3s;
 }
 @keyframes fpPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(139,92,246,.35),
-                0 0 30px rgba(139,92,246,.28),
-                inset 0 0 20px rgba(139,92,246,.08);
-  }
-  50% {
-    box-shadow: 0 0 0 12px rgba(139,92,246,0),
-                0 0 55px rgba(139,92,246,.55),
-                inset 0 0 28px rgba(139,92,246,.16);
-  }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139,92,246,.35), 0 0 30px rgba(139,92,246,.28), inset 0 0 20px rgba(139,92,246,.08); }
+  50%      { box-shadow: 0 0 0 12px rgba(139,92,246,0), 0 0 55px rgba(139,92,246,.55), inset 0 0 28px rgba(139,92,246,.16); }
 }
 .fingerprint:hover {
   border-color: rgba(196,181,253,.75);
   color: #e9d5ff;
   transform: scale(1.05);
 }
+.fingerprint:active {
+  transform: scale(.95);
+  transition: transform .12s ease;
+}
 .scan-line {
   position: absolute;
-  left: 14%;
-  right: 14%;
+  left: 14%; right: 14%;
   top: 22%;
   height: 3px;
   border-radius: 2px;
@@ -423,7 +393,6 @@ body::after {
   transform: scale(1.05);
 }
 .fingerprint.success .scan-line { opacity: 0; }
-
 .lock-hint {
   font-size: .82rem;
   color: #c9cfe8;
@@ -485,7 +454,6 @@ body::after {
   animation: shine 6s linear infinite;
   filter: drop-shadow(0 0 34px rgba(139,92,246,.65));
 }
-@keyframes shine { to { background-position: 220% center; } }
 .hero .tagline {
   font-size: clamp(.85rem, 2.6vw, 1rem);
   color: #c9cfe8;
@@ -514,6 +482,7 @@ body::after {
   transition: .3s;
 }
 .chip:hover { border-color: rgba(139,92,246,.55); color: #fff; transform: translateY(-2px); }
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -521,9 +490,12 @@ body::after {
   gap: 14px;
   margin-top: 34px;
 }
+
+/* ============ BUTTONS ============ */
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 9px;
   padding: 14px 30px;
   border-radius: 100px;
@@ -531,7 +503,16 @@ body::after {
   font-weight: 600;
   text-decoration: none;
   letter-spacing: .02em;
-  transition: .3s cubic-bezier(.4,0,.2,1);
+  transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.btn:active {
+  transform: scale(.94);
+  transition: transform .12s cubic-bezier(.4,0,.2,1);
 }
 .btn-primary {
   color: #04140a;
@@ -598,14 +579,13 @@ body::after {
   position: relative;
   border-radius: 22px;
   padding: 22px 22px 22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015)),
-    rgba(8,8,18,.82);
+  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.015)), rgba(8,8,18,.82);
   border: 1px solid var(--stroke);
   backdrop-filter: blur(18px);
   overflow: hidden;
-  transition: .4s cubic-bezier(.4,0,.2,1);
+  transition: transform .45s cubic-bezier(.4,0,.2,1), box-shadow .45s ease, border-color .4s ease;
   isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
 }
 .card::before {
   content: "";
@@ -639,6 +619,11 @@ body::after {
 }
 .card:hover::before { opacity: 1; }
 .card:hover::after { opacity: .55; transform: scale(1.35); }
+.card:active {
+  transform: translateY(-4px) scale(.975);
+  box-shadow: 0 14px 34px -14px var(--a), 0 0 0 1px rgba(255,255,255,.08);
+  transition: transform .14s cubic-bezier(.4,0,.2,1), box-shadow .14s ease;
+}
 
 /* Foto di dalam card */
 .card__img {
@@ -655,12 +640,11 @@ body::after {
   isolation: isolate;
 }
 .card__img img {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
   display: block;
   border-radius: 14px;
-  transition: transform .6s cubic-bezier(.2,.8,.2,1);
+  transition: opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1);
 }
 .card__img::after {
   content: "";
@@ -669,6 +653,7 @@ body::after {
   border-radius: 16px;
   background: linear-gradient(180deg, transparent 55%, rgba(5,5,13,.55) 100%);
   pointer-events: none;
+  z-index: 3;
 }
 .card:hover .card__img {
   box-shadow: 0 18px 40px -12px var(--a);
@@ -676,6 +661,27 @@ body::after {
 }
 .card:hover .card__img img {
   transform: scale(1.06);
+}
+
+/* ✨ SKELETON SHIMMER LOADING */
+.card__img.loading img { opacity: 0; }
+.card__img.loading::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 14px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(255,255,255,0.10) 20%,
+    rgba(255,255,255,0.20) 50%,
+    rgba(255,255,255,0.10) 80%,
+    rgba(255,255,255,0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .card__head { text-align: center; padding-bottom: 14px; }
@@ -750,9 +756,12 @@ body::after {
   color: #08080f;
   background: linear-gradient(135deg, var(--a), var(--b));
   box-shadow: 0 10px 26px -10px var(--a);
-  transition: .3s cubic-bezier(.4,0,.2,1);
+  transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s ease;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .card__btn::after {
   content: "";
@@ -762,10 +771,14 @@ body::after {
   background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
   transform: skewX(-20deg);
   transition: .6s;
+  z-index: 1;
 }
 .card__btn:hover::after { left: 140%; }
 .card__btn:hover { transform: translateY(-3px); box-shadow: 0 16px 34px -10px var(--a); }
-.card__btn:active { transform: translateY(0) scale(.98); }
+.card__btn:active {
+  transform: scale(.94);
+  transition: transform .12s cubic-bezier(.4,0,.2,1);
+}
 
 /* ============ KONTAK ============ */
 .contact-wrap {
@@ -781,27 +794,30 @@ body::after {
   border-radius: 22px;
   padding: 26px 22px;
   text-align: center;
-  background:
-    linear-gradient(180deg, rgba(37,211,102,.14), rgba(255,255,255,.015)),
-    rgba(8,8,18,.82);
+  background: linear-gradient(180deg, rgba(37,211,102,.14), rgba(255,255,255,.015)), rgba(8,8,18,.82);
   border: 1px solid rgba(37,211,102,.32);
   backdrop-filter: blur(18px);
   box-shadow: 0 0 46px -14px rgba(37,211,102,.55);
-  transition: .4s;
+  transition: transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s ease, border-color .4s;
+  -webkit-tap-highlight-color: transparent;
 }
-.contact:hover { box-shadow: 0 0 60px -10px rgba(37,211,102,.7); border-color: rgba(37,211,102,.55); }
+.contact:hover {
+  box-shadow: 0 0 60px -10px rgba(37,211,102,.7);
+  border-color: rgba(37,211,102,.55);
+  transform: translateY(-6px);
+}
+.contact:active {
+  transform: translateY(-2px) scale(.975);
+  transition: transform .14s ease;
+}
 .contact--tg {
-  background:
-    linear-gradient(180deg, rgba(34,158,217,.15), rgba(255,255,255,.015)),
-    rgba(8,8,18,.82);
+  background: linear-gradient(180deg, rgba(34,158,217,.15), rgba(255,255,255,.015)), rgba(8,8,18,.82);
   border-color: rgba(34,158,217,.35);
   box-shadow: 0 0 46px -14px rgba(34,158,217,.55);
 }
 .contact--tg:hover { box-shadow: 0 0 60px -10px rgba(34,158,217,.75); border-color: rgba(34,158,217,.6); }
 .contact--ch {
-  background:
-    linear-gradient(180deg, rgba(244,63,94,.15), rgba(255,255,255,.015)),
-    rgba(8,8,18,.82);
+  background: linear-gradient(180deg, rgba(244,63,94,.15), rgba(255,255,255,.015)), rgba(8,8,18,.82);
   border-color: rgba(244,63,94,.35);
   box-shadow: 0 0 46px -14px rgba(244,63,94,.55);
 }
@@ -836,6 +852,7 @@ body::after {
 .contact__btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 9px;
   margin-top: 18px;
   padding: 12px 26px;
@@ -848,7 +865,12 @@ body::after {
   color: #04140a;
   background: linear-gradient(135deg, #34e07a, #12b886);
   box-shadow: 0 12px 30px -10px rgba(37,211,102,.9);
-  transition: .3s;
+  transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .contact--tg .contact__btn {
   color: #04121a;
@@ -861,6 +883,10 @@ body::after {
   box-shadow: 0 12px 30px -10px rgba(244,63,94,.9);
 }
 .contact__btn:hover { transform: translateY(-3px) scale(1.03); }
+.contact__btn:active {
+  transform: scale(.94);
+  transition: transform .12s cubic-bezier(.4,0,.2,1);
+}
 
 /* ============ FOOTER ============ */
 .footer {
@@ -908,7 +934,10 @@ body::after {
   display: grid; place-items: center;
   border-radius: 50%;
   text-decoration: none;
-  transition: .3s;
+  transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s ease;
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 .wa-float {
   background: linear-gradient(140deg, #34e07a, #12b886);
@@ -928,6 +957,7 @@ body::after {
 .tg-float svg { fill: #04121a; }
 .ch-float svg { fill: #fff; }
 .wa-float:hover, .tg-float:hover, .ch-float:hover { transform: scale(1.12) rotate(-6deg); }
+.wa-float:active, .tg-float:active, .ch-float:active { transform: scale(.88); transition: transform .1s ease; }
 @keyframes waPulse {
   0%,100% { box-shadow: 0 12px 34px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.5); }
   50%     { box-shadow: 0 12px 34px rgba(37,211,102,.5), 0 0 0 16px rgba(37,211,102,0); }
@@ -967,11 +997,11 @@ body::after {
 
 <body class="locked">
 
-<!-- 🖼️ BACKGROUND IMAGE + OVERLAY -->
+<!-- 🖼️ BACKGROUND -->
 <div class="bg-layer" aria-hidden="true"></div>
 <div class="bg-overlay" aria-hidden="true"></div>
 
-<!-- 🎬 PS2 BOOT / WELCOME SCREEN -->
+<!-- 🎬 PS2 BOOT -->
 <div class="ps2-boot" id="ps2Boot" aria-hidden="true">
   <div class="ps2-glow"></div>
   <div class="ps2-particles" id="ps2Particles"></div>
@@ -992,12 +1022,11 @@ body::after {
   <source src="https://l.top4top.io/m_39539lzmr0.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 🔒 LOCK SCREEN SIDIK JARI -->
+<!-- 🔒 LOCK SCREEN -->
 <div class="lock-screen" id="lockScreen">
   <div class="lock-card">
     <div class="lock-brand"> RASYA STORE </div>
     <p class="lock-sub">Verifikasi Diperlukan</p>
-
     <button class="fingerprint" id="fingerprintBtn" aria-label="Buka dengan sidik jari">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1013,13 +1042,11 @@ body::after {
       </svg>
       <span class="scan-line"></span>
     </button>
-
     <p class="lock-hint" id="lockHint">Sentuh sidik jari untuk membuka</p>
     <div class="lock-foot">🔒 Protected Area · Rasya Store</div>
   </div>
 </div>
 
-<!-- HERO -->
 <header class="hero">
   <div class="badge">🔥 FF APK MOD · NON ROOT</div>
   <h1>RASYA STORE</h1>
@@ -1054,6 +1081,48 @@ body::after {
 <!-- CARDS -->
 <main class="grid">
 
+  <!-- REZZ X MODZ -->
+  <article class="card reveal" style="--a:#a855f7; --b:#e879f9;">
+    <div class="card__img loading">
+      <img src="https://cdn.zass.in/LFia1Kq8TF.png" alt="Rezz X Modz FF APK Mod" loading="lazy">
+    </div>
+    <div class="card__head">
+      <h3>REZZ X MODZ</h3>
+      <span class="card__tag">COCOK UNTUK FT / ISIAN</span>
+    </div>
+    <div class="divider"></div>
+    <ul class="price-list">
+      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">4K</span></li>
+      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">7K</span></li>
+      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">13K</span></li>
+      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">19K</span></li>
+    </ul>
+    <a class="card__btn" data-ripple
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20REZZ%20X%20MODZ"
+       target="_blank" rel="noopener">Order Rezz X Modz</a>
+  </article>
+
+  <!-- XREG -->
+  <article class="card reveal" style="--a:#22c55e; --b:#a3e635;">
+    <div class="card__img loading">
+      <img src="https://cdn.zass.in/AJ1T7pbcpT.png" alt="XREG FF APK Mod" loading="lazy">
+    </div>
+    <div class="card__head">
+      <h3>XREG</h3>
+      <span class="card__tag">PANEL TERLARIS COCOK UNTUK PUSH RANK</span>
+    </div>
+    <div class="divider"></div>
+    <ul class="price-list">
+      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">3.5K</span></li>
+      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">6K</span></li>
+      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">9K</span></li>
+      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">18K</span></li>
+    </ul>
+    <a class="card__btn" data-ripple
+       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20XREG"
+       target="_blank" rel="noopener">Order Xreg</a>
+  </article>
+
   <!-- DRIP WIRE APK MOD -->
   <article class="card reveal" style="--a:#f59e0b; --b:#fbbf24;">
     <div class="card__img">
@@ -1076,49 +1145,6 @@ body::after {
        target="_blank" rel="noopener">Order Drip Wire</a>
   </article>
 
-  <!-- AIM HACK -->
-  <article class="card reveal" style="--a:#a855f7; --b:#e879f9;">
-    <div class="card__img">
-      <img src="https://cdn.zass.in/gqjsV8KH78.png" alt="AIM HACK FF APK Mod" loading="lazy">
-    </div>
-    <div class="card__head">
-      <h3>AIM HACK</h3>
-      <span class="card__tag">PANEL TERLARIS COCOK UNTUK PUSH RANK</span>
-    </div>
-    <div class="divider"></div>
-    <ul class="price-list">
-      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">3.5K</span></li>
-      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">5K</span></li>
-      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">10K</span></li>
-      <li><span class="dur">12 JAM</span><span class="dots"></span><span class="price">15K</span></li>
-      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">19K</span></li>
-    </ul>
-    <a class="card__btn"
-       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20AIM%20HACK"
-       target="_blank" rel="noopener">Order Aim Hack</a>
-  </article>
-
-  <!-- XREG -->
-  <article class="card reveal" style="--a:#22c55e; --b:#a3e635;">
-    <div class="card__img">
-      <img src="https://cdn.zass.in/AJ1T7pbcpT.png" alt="XREG FF APK Mod" loading="lazy">
-    </div>
-    <div class="card__head">
-      <h3>XREG</h3>
-      <span class="card__tag">COCOK UNTUK FT / ISIAN</span>
-    </div>
-    <div class="divider"></div>
-    <ul class="price-list">
-      <li><span class="dur">1 JAM</span><span class="dots"></span><span class="price">3K</span></li>
-      <li><span class="dur">3 JAM</span><span class="dots"></span><span class="price">5.5K</span></li>
-      <li><span class="dur">6 JAM</span><span class="dots"></span><span class="price">10K</span></li>
-      <li><span class="dur">1 HARI</span><span class="dots"></span><span class="price">18K</span></li>
-    </ul>
-    <a class="card__btn"
-       href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order%20XREG"
-       target="_blank" rel="noopener">Order Xreg</a>
-  </article>
-
 </main>
 
 <!-- KONTAK -->
@@ -1129,7 +1155,7 @@ body::after {
        href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order"
        target="_blank" rel="noopener">6289677269810</a>
     <p class="contact__note">Klik nomor untuk langsung chat</p>
-    <a class="contact__btn"
+    <a class="contact__btn" data-ripple
        href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order"
        target="_blank" rel="noopener">💬 Chat Admin</a>
   </section>
@@ -1140,7 +1166,7 @@ body::after {
        href="https://t.me/RasyaXD"
        target="_blank" rel="noopener">t.me/RasyaXD</a>
     <p class="contact__note">Klik link untuk langsung chat</p>
-    <a class="contact__btn"
+    <a class="contact__btn" data-ripple
        href="https://t.me/RasyaXD"
        target="_blank" rel="noopener">✈️ Chat Telegram</a>
   </section>
@@ -1151,25 +1177,25 @@ body::after {
        href="https://whatsapp.com/channel/0029Vb8Ahsm2phHR7AkyIx2O"
        target="_blank" rel="noopener">Saluran Rasya Store</a>
     <p class="contact__note">Info promo, update panel &amp; restock</p>
-    <a class="contact__btn"
+    <a class="contact__btn" data-ripple
        href="https://whatsapp.com/channel/0029Vb8Ahsm2phHR7AkyIx2O"
        target="_blank" rel="noopener">📢 Ikuti Saluran</a>
   </section>
 </div>
 
-<!-- FLOATING BUTTONS -->
+<!-- FLOAT BUTTONS -->
 <div class="float-stack">
-  <a class="ch-float" href="https://whatsapp.com/channel/0029Vb8Ahsm2phHR7AkyIx2O" target="_blank" rel="noopener" aria-label="Saluran WhatsApp">
+  <a class="ch-float" data-ripple href="https://whatsapp.com/channel/0029Vb8Ahsm2phHR7AkyIx2O" target="_blank" rel="noopener" aria-label="Saluran WhatsApp">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm4 12.72V20h-2v-1.28c-.6-.35-1-.99-1-1.72 0-1.1.9-2 2-2s2 .9 2 2c0 .73-.4 1.37-1 1.72z"/>
     </svg>
   </a>
-  <a class="tg-float" href="https://t.me/RasyaXD" target="_blank" rel="noopener" aria-label="Chat Telegram">
+  <a class="tg-float" data-ripple href="https://t.me/RasyaXD" target="_blank" rel="noopener" aria-label="Chat Telegram">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
     </svg>
   </a>
-  <a class="wa-float" href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <a class="wa-float" data-ripple href="https://wa.me/6289677269810?text=Halo%20Rasya%20Store%2C%20saya%20mau%20order" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.48.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"/>
       <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.03-.2-.31a8.18 8.18 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.21-8.24 8.21z"/>
@@ -1179,33 +1205,25 @@ body::after {
 
 <script>
 /* ============================================================
-   🎬 PS2 BOOT — GENERATE PARTIKEL & TIMING
+   🎬 PS2 BOOT
    ============================================================ */
 (function () {
   const boot = document.getElementById('ps2Boot');
   if (!boot) return;
-
   const wrap = document.getElementById('ps2Particles');
   if (wrap) {
     const COUNT = 55;
     for (let i = 0; i < COUNT; i++) {
       const p = document.createElement('span');
-      const angle    = Math.random() * 360;
-      const dist     = 180 + Math.random() * 380;
-      const size     = 1 + Math.random() * 2.5;
-      const delay    = 0.4 + Math.random() * 1.8;
-      const duration = 1.8 + Math.random() * 1.2;
-
-      p.style.setProperty('--angle',    angle + 'deg');
-      p.style.setProperty('--dist',     dist + 'px');
-      p.style.setProperty('--size',     size + 'px');
-      p.style.setProperty('--delay',    delay + 's');
-      p.style.setProperty('--duration', duration + 's');
+      p.style.setProperty('--angle',    (Math.random() * 360) + 'deg');
+      p.style.setProperty('--dist',     (180 + Math.random() * 380) + 'px');
+      p.style.setProperty('--size',     (1 + Math.random() * 2.5) + 'px');
+      p.style.setProperty('--delay',    (0.4 + Math.random() * 1.8) + 's');
+      p.style.setProperty('--duration', (1.8 + Math.random() * 1.2) + 's');
       p.className = 'ps2-particle';
       wrap.appendChild(p);
     }
   }
-
   let skipped = false;
   function endBoot() {
     if (skipped) return;
@@ -1218,7 +1236,7 @@ body::after {
 })();
 
 /* ============================================================
-   🎵 BACKGROUND MUSIC — AUTO PLAY, LOOP, TIDAK BISA DI-MUTE
+   🎵 BACKGROUND MUSIC
    ============================================================ */
 const bgm = document.getElementById('bgm');
 bgm.loop = true;
@@ -1234,26 +1252,23 @@ const tryPlayMusic = () => {
   }
 };
 tryPlayMusic();
-
 ['click','touchstart','touchend','scroll','keydown','mousemove','pointerdown']
   .forEach(evt => {
     document.addEventListener(evt, tryPlayMusic, { passive: true });
     window.addEventListener(evt, tryPlayMusic, { passive: true });
   });
-
 setInterval(() => {
   if (bgm.paused) tryPlayMusic();
   if (bgm.muted) bgm.muted = false;
   if (bgm.volume < 0.05) bgm.volume = 0.85;
 }, 1200);
-
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) tryPlayMusic();
 });
 bgm.addEventListener('pause', () => setTimeout(tryPlayMusic, 200));
 
 /* ============================================================
-   🔒 LOCK SCREEN — SIDIK JARI (WebAuthn + Fallback)
+   🔒 LOCK SCREEN SIDIK JARI
    ============================================================ */
 (function () {
   const lockScreen = document.getElementById('lockScreen');
@@ -1266,11 +1281,9 @@ bgm.addEventListener('pause', () => setTimeout(tryPlayMusic, 200));
     try {
       const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
       if (!available) return false;
-
       const challenge = new Uint8Array(32);
       crypto.getRandomValues(challenge);
       const storedId = localStorage.getItem('rasya_cred_id');
-
       if (storedId) {
         const credId = Uint8Array.from(atob(storedId), c => c.charCodeAt(0));
         const assertion = await navigator.credentials.get({
@@ -1304,50 +1317,79 @@ bgm.addEventListener('pause', () => setTimeout(tryPlayMusic, 200));
           }
         });
         if (cred) {
-          const id = btoa(String.fromCharCode(...new Uint8Array(cred.rawId)));
-          localStorage.setItem('rasya_cred_id', id);
+          localStorage.setItem('rasya_cred_id', btoa(String.fromCharCode(...new Uint8Array(cred.rawId))));
           return true;
         }
       }
-    } catch (e) {
-      console.log('[WebAuthn] fallback:', e.message);
-    }
+    } catch (e) {}
     return false;
   }
 
   async function attemptUnlock() {
     if (unlocking) return;
     unlocking = true;
-
     btn.classList.add('scanning');
     hint.textContent = 'Memverifikasi sidik jari...';
     hint.classList.remove('muted');
-
     let ok = false;
     try { ok = await tryWebAuthn(); } catch (e) {}
-
-    if (!ok) {
-      await new Promise(r => setTimeout(r, 1800));
-    }
-
+    if (!ok) await new Promise(r => setTimeout(r, 1800));
     btn.classList.remove('scanning');
     btn.classList.add('success');
     hint.textContent = '✓ Sidik jari terverifikasi';
-    hint.classList.remove('muted');
-
     await new Promise(r => setTimeout(r, 650));
-
     lockScreen.classList.add('unlocked');
     document.body.classList.remove('locked');
     tryPlayMusic();
   }
-
   btn.addEventListener('click', attemptUnlock);
   btn.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       attemptUnlock();
     }
+  });
+})();
+
+/* ============================================================
+   ✨ SKELETON SHIMMER — deteksi gambar selesai load
+   ============================================================ */
+(function () {
+  document.querySelectorAll('.card__img img').forEach(img => {
+    const wrap = img.parentElement;
+    if (img.complete && img.naturalWidth > 0) {
+      wrap.classList.remove('loading');
+    } else {
+      img.addEventListener('load',  () => wrap.classList.remove('loading'), { once: true });
+      img.addEventListener('error', () => wrap.classList.remove('loading'), { once: true });
+    }
+  });
+})();
+
+/* ============================================================
+   💧 RIPPLE EFFECT
+   ============================================================ */
+(function () {
+  const selectors = '.btn, .card__btn, .contact__btn, .wa-float, .tg-float, .ch-float, .fingerprint';
+  const nodes = document.querySelectorAll(selectors);
+
+  nodes.forEach(el => {
+    const cs = getComputedStyle(el);
+    if (cs.position === 'static') el.style.position = 'relative';
+    if (cs.overflow !== 'hidden') el.style.overflow = 'hidden';
+
+    el.addEventListener('pointerdown', (e) => {
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width  = size + 'px';
+      ripple.style.height = size + 'px';
+      ripple.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+      el.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    });
   });
 })();
 
